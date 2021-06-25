@@ -1,0 +1,42 @@
+// Calculate the area of tropical upper-tropospheric troughs (TUTTs) at 200 hPa. 
+//
+// This requires one file: monthly averaged geopotential height (hgt).
+// The code is in python.   
+//
+// All text to the right of an unquoted "//" is a comment and ignored, as well
+// as blank lines (JSONC quasi-standard.) JSON doesn't support line continuation
+// in strings, so you'll want to turn word wrap on in your editor.
+//
+{"settings" : {"driver" : "Output_TUTT_positions_final_Ridge_max_20_30N.py",
+    "long_name" : "Calculate TUTT area at 200 hPa",
+    "realm" : "atmos",
+    "description" : "Calculate TUTT area at 200 hPa",
+   "runtime_requirements" : {"python3" : ["netCDF4", "numpy", "normalize", "skimage", "matplotlib", "shapely", "scipy"]}},
+  "data": {"frequency": "mon"},
+ "dimensions" : {
+    "latitude" : {
+      "standard_name" : "latitude",
+      "units" : "degrees_north"
+    },
+    "longitude" : {
+      "standard_name" : "longitude",
+      "units" : "degrees_east"
+    },
+    "time" : {
+      "standard_name" : "time",
+      "units" : "days",
+      "calendar" : "noleap"
+    }
+  },
+  "varlist": {
+    // NOTE conversion of this POD is incomplete, since we need a native python
+    // implementation of NCL's conversion from hybrid sigma vertical coordinate.
+    "zg": {
+      "standard_name": "geopotential_height",
+      "units": "m",
+      "dimensions": ["time", "lat", "lon"],
+      "scalar_coordinates": {"plev": 500},
+      "alternates": ["zg_hybrid_sigma", "ps"]
+    },
+  }
+}
